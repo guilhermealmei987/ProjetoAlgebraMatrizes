@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Calculadora de Matrizes</title>
+    <link rel="stylesheet" href="\static\style.css">
+</head>
+<body>
+    <h1>Calculadora de Matrizes</h1>
+    <button id="btnCalcular">Calcular</button>
+    
+    <textarea id="usermatrizA"></textarea>
+    <textarea id="usermatrizB"></textarea>
+    <div id="matrizC"></div>
+
+    <script>
+        document.getElementById("btnCalcular").addEventListener("click", async () => {
+            // Exemplo de matrizes coletadas da sua interface
+            function lerMatrizTextarea(textid) {
+                const texto = document.getElementById(textid).value.trim();
+                return texto.split('\n').map(linha => {
+                    return linha.trim().split(/[\s,]+/).map(Number);
+                });
+            }
+            const matrizA = lerMatrizTextarea("usermatrizA");
+
+            
+            const matrizB = lerMatrizTextarea("usermatrizB")
+
+            // Envia os dados para a função Python via FastAPI
+            const response = await fetch("/calcular", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    matrizA: matrizA,
+                    matrizB: matrizB
+                })
+            });
+
+            const data = await response.json();
+            
+            // Exibe o resultado devolvido pelo Python
+            document.getElementById("matrizC").innerText = JSON.stringify(data.resultado);
+        });
+    </script>
+</body>
+</html>

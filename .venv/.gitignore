@@ -1,0 +1,14 @@
+
+.venv/
+ProjetoAlgebraMatrizes*/
+Lib/
+Scripts/
+Include/
+
+
+app/
+__pycache__/
+
+
+*.pyc
+pyvenv.cfg
