@@ -3,64 +3,26 @@
 <head>
     <meta charset="UTF-8">
     <title>Calculadora de Matrizes e Vetores</title>
-    <link rel="stylesheet" href="\static\style.css">
+    <link rel="stylesheet" href="/static/style.css">
 </head>
 <body>
+    <div class="container">
+        <div class="card">
+            <h2>Produto de Matrizes</h2>
+            <button id="btnCalcularMatriz">Calcular</button>
+            <textarea id="usermatrizA" rows="5" placeholder="ex: 1 2 3&#10;    4 5 6"></textarea>
+            <textarea id="usermatrizB" rows="5" placeholder="ex: 6 5 4&#10;    3 2 1"></textarea>
+            <div id="matrizC"></div>
+        </div>
 
-    <h1>Calculadora de Matrizes</h1>
-    <button id="btnCalcular">Calcular</button>
-    <textarea id="usermatrizA" rows="5" cols="25" placeholder="ex: 1 2 3&#10;    4 5 6"></textarea>
-    <textarea id="usermatrizB" rows="5" cols="25" placeholder="ex: 6 5 4&#10;    3 2 1"></textarea>
-    <div id="matrizC"></div>
-
-    <hr>
-    <h2>Calculadora de Produto Escalar (Vetores)</h2>
-    <button id="btnCalcularVetor">Calcular</button>
-    <textarea id="userVetorA" placeholder= "ex: 1 0 0"></textarea>
-    <textarea id="userVetorB" placeholder= "ex: 0 1 0"></textarea>
-    <pre id="resultadoVetor"></pre>
-
-    <script>
-    
-        document.getElementById("btnCalcular").addEventListener("click", async () => {
-            function lerMatrizTextarea(textid) {
-                const texto = document.getElementById(textid).value.trim();
-                return texto.split('\n').map(linha => {
-                    return linha.trim().split(/[\s,]+/).map(Number);
-                });
-            }
-            const matrizA = lerMatrizTextarea("usermatrizA");
-            const matrizB = lerMatrizTextarea("usermatrizB");
-
-            const response = await fetch("/calcular", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ matrizA: matrizA, matrizB: matrizB })
-            });
-
-            const data = await response.json();
-            document.getElementById("matrizC").innerText = JSON.stringify(data.resultado);
-        });
-
-        // Lógica de Vetores 
-        document.getElementById("btnCalcularVetor").addEventListener("click", async () => {
-            function lerVetorTextarea(textid) {
-                const texto = document.getElementById(textid).value.trim();
-                return texto.split(/[\s,]+/).map(Number);
-            }
-            
-            const vetorA = lerVetorTextarea("userVetorA");
-            const vetorB = lerVetorTextarea("userVetorB");
-
-            const response = await fetch("/produto_escalar", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ vetorA: vetorA, vetorB: vetorB })
-            });
-
-            const data = await response.json();
-            document.getElementById("resultadoVetor").innerText = JSON.stringify(data.resultado, null, 4);
-        });
-    </script>
+        <div class="card">
+            <h2>Calculadora de Produto Escalar (Vetores)</h2>
+            <button id="btnCalcularVetor">Calcular</button>
+            <textarea id="userVetorA" rows="5" placeholder="ex: 1 0 0"></textarea>
+            <textarea id="userVetorB" rows="5" placeholder="ex: 0 1 0"></textarea>
+            <pre id="resultadoVetor"></pre>
+        </div>
+    </div>
+<script src="static/script.js"></script>
 </body>
 </html>
